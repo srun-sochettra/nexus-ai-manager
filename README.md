@@ -1,6 +1,6 @@
 # 🚀 Enterprise AI Manager
 
-## Used with Basic-SpringBoot for backend [Basic-SpringBoot](https://github.com/SRUN-Sochettra/Basic-SpringBoot.git)
+## Used with Basic-SpringBoot for backend [Basic-SpringBoot](https://github.com/SRUN-Sochettra/spring-boot-basics.git)
 
 ### The Next-Gen Management Interface Supercharged with AI
 
