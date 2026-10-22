@@ -1,105 +1,111 @@
-# 🚀 Enterprise AI Manager
+# NexusAI Manager
 
-## Used with Basic-SpringBoot for backend [Basic-SpringBoot](https://github.com/SRUN-Sochettra/spring-boot-basics.git)
+**Product and employee record management with an AI-assisted interface.**
 
-### The Next-Gen Management Interface Supercharged with AI
+A Next.js application combining searchable management tables, CRUD forms, dashboard charts and AI tools. The interface already uses the **NexusAI** name; this documentation aligns the project title with that branding.
 
-[![Next.js](https://img.shields.io/badge/Next.js-16.2.2-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19.2.4-61DAFB?style=for-the-badge&logo=react)](https://reactjs.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
-[![Gemini](https://img.shields.io/badge/AI-Gemini_2.5-4285F4?style=for-the-badge&logo=google-gemini)](https://deepmind.google/technologies/gemini/)
+![NexusAI interface showcase](https://github.com/user-attachments/assets/bfba03c5-768a-4f3a-8d3b-eff8a50e7bee)
 
-**Enterprise AI Manager** is a premium, high-performance management platform designed to streamline employee and product operations. By integrating state-of-the-art AI models, it transforms raw data into actionable insights, provides natural language interactions, and automates repetitive tasks.
-<img width="1366" height="768" alt="NexusCover" src="https://github.com/user-attachments/assets/bfba03c5-768a-4f3a-8d3b-eff8a50e7bee" />
+This repository contains the Next.js interface and AI route handlers. The employee/product backend is a separate dependency, not bundled here. Treat the current project as a development/demo application, not a verified enterprise-ready system.
 
+## What is included
 
----
+- **Management tables:** employee and product listings with client-side search, sorting, filters and pagination.
+- **CRUD interfaces:** create, look up, update and delete records through an external REST API.
+- **Dashboard:** charts calculated from loaded records, plus an optional Gemini-generated summary.
+- **AI assistant and search:** route handlers send supplied record data to Gemini for answers and natural-language matching.
+- **Product image helper:** Gemini suggestions for a product name, price and Food/Drink category, with a preview before applying them to the form.
+- **Translation:** English-to-target model mappings for Spanish, French, German, Chinese, Arabic, Japanese, Korean and Portuguese through Hugging Face.
+- **Authentication UI:** external username/password login and registration, alongside Google sign-in through NextAuth.
 
-## ✨ Key Features
+A text-classification demo is also present. It is not a validated assessment of employees, their emotions or their performance, and should not be used for employment decisions.
 
-### 📊 AI-Powered Dashboard
-*   **Gemini Analytics**: Automated business analytics with executive summaries.
-*   **Visual Insights**: Real-time charts powered by **Recharts** showing trends and distributions.
-*   **Smart Highlights**: AI-detected anomalies and growth opportunities.
+## Stack
 
-### 👥 Employee Hub
-*   **Complete CRUD**: Efficient management of employee records.
-*   **Sentiment Analysis**: Integrated **DistilBERT** models to analyze employee reviews and feedback.
-*   **Role-Based Access**: Secure environment with Admin/User permissions via **NextAuth**.
+| Area | Source configuration |
+| --- | --- |
+| Application | Next.js 16.2.2, React 19.2.4, JavaScript, App Router |
+| Styling | Tailwind CSS v4, Framer Motion, Lucide icons |
+| Charts | Recharts |
+| Sign-in | NextAuth v4 with Google, plus external API authentication |
+| AI routes | Google Generative AI SDK and Hugging Face HTTP requests |
+| Business data | External employee/product/category REST endpoints |
 
-### 📦 Smart Product Catalog
-*   **Vision AI**: Image scanning to auto-fill product details from photo URLs.
-*   **Global Reach**: Inline translation into 8+ languages using **Hugging Face** Helsinki models.
-*   **Advanced Filtering**: Category management and instant search.
+The image helper uses Gemini, not a separate Google Cloud Vision API integration. Declared packages and model names do not establish current provider availability, free usage or successful execution.
 
-### 🤖 AI Integration
-*   **Gemini Assistant**: Chat directly with your data using natural language.
-*   **NLP Search**: Find anything across the entire platform with semantic queries.
-*   **Real-time Analysis**: Instant feedback and recommendations across all modules.
+## Local setup
 
----
+Use Node.js/npm compatible with the declared Next.js version. No engines field or dependency lockfile is included in the supplied export, so this guide does not repeat the old README's unverified Node.js minimum.
 
-## 🛠️ Technology Stack
+From your existing repository checkout, using PowerShell:
 
-| Layer | Technologies |
-| :--- | :--- |
-| **Core** | [Next.js 16](https://nextjs.org/), [React 19](https://reactjs.org/) |
-| **AI/ML** | [Gemini 2.5 Flash](https://deepmind.google/technologies/gemini/), [Hugging Face](https://huggingface.co/), Google Vision API |
-| **Styling** | [Tailwind CSS v4](https://tailwindcss.com/), [Framer Motion](https://www.framer.com/motion/) |
-| **UI Components** | [shadcn/ui](https://ui.shadcn.com/), [Radix UI](https://www.radix-ui.com/), [Lucide Icons](https://lucide.dev/) |
-| **Data Viz** | [Recharts](https://recharts.org/) |
-| **Authentication** | [NextAuth.js](https://next-auth.js.org/) |
-| **Backend** | [Spring Boot](https://spring.io/projects/spring-boot) |
+```powershell
+npm install
+Copy-Item .env.example .env.local
+```
 
----
+Edit `.env.local` using the included variable names:
 
-## 🚦 Getting Started
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_API_URL` | External business API base; defaults to the local port-8080 address in the source |
+| `GEMINI_API_KEY` | Server-side Gemini requests |
+| `HUGGINGFACE_API_KEY` | Server-side translation/text-classification requests |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google provider configuration |
+| `NEXTAUTH_SECRET` | NextAuth secret configuration |
+| `NEXTAUTH_URL` | Application address for NextAuth |
 
-### Prerequisites
-*   Node.js 18+ 
-*   npm / yarn / pnpm / bun
+Use your own credentials. Only the public API base belongs in a NEXT_PUBLIC-prefixed setting. The existing code logs partial API keys and request/session details; review [security guidance](SECURITY.md) before supplying credentials or sensitive data.
 
-### Installation
-1.  Clone the repository:
-    ```bash
-    git clone https://github.com/SRUN-Sochettra/test-next.git
-    cd test-next
-    ```
+Start a compatible business backend separately. The previous README links to [the companion Spring repository](https://github.com/SRUN-Sochettra/spring-boot-basics.git); its current contents, setup and compatibility were not inspected for this refresh.
 
-2.  Install dependencies:
-    ```bash
-    npm install
-    ```
+The frontend expects employee, product and category endpoints under `/api/v1/`, with list/detail data wrapped in a `data` property. See [architecture notes](docs/architecture.md) for the client contract and authentication gaps.
 
-3.  Configure Environment Variables:
-    Create a `.env.local` file in the root directory and add your API keys (Gemini, Google Cloud, NextAuth secrets). Use `.env.example` as a template if available.
+Then run:
 
-### Development
-Run the development server:
-```bash
+```powershell
 npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the results.
 
----
+Use the address printed by Next.js. Data-backed pages fetch from the external API and can fail if that backend is unavailable or incompatible. Provider keys alone do not make the management pages self-contained.
 
-## 🏗️ Architecture
+## Checks and production commands
 
-The project follows the **Next.js App Router** architecture:
-*   `src/app/`: Core routing and page layouts.
-*   `src/components/`: Modular, reusable UI components (Product, Employee, Common).
-*   `src/context/`: Global state management (Auth, Theme).
-*   `src/lib/`: Utility functions and AI service integrations.
-*   `public/`: Static assets and icons.
+```powershell
+npm run lint
+npm run build
+npm run start
+```
 
----
+`start` runs the production server after a successful build. No test script or automated test files are included in the supplied export. No installation, lint, build or provider call was executed during this documentation refresh.
 
-## 📄 License
+Some root UI components import the `radix-ui` umbrella package, but it is not declared in the supplied manifest. Whether those files affect the current build depends on the import graph; verify rather than assuming the declared individual Radix packages satisfy those imports.
 
-This project is private and intended for enterprise use.
+## Important boundaries
 
----
+- Client-side role checks are not server-side authorisation. The external backend's enforcement is not available for inspection here.
+- Google sign-in stores a local marker rather than exchanging the session for an external backend token. Backend write compatibility is not established.
+- AI handlers accept client-supplied record arrays. Their answers and generated JSON are not authoritative database queries or verified financial calculations.
+- Employee names, email addresses and salary fields can be sent to Gemini. Use synthetic or explicitly authorised, minimised data only.
+- The vision route fetches a supplied URL without explicit destination, size or timeout checks in that handler. Do not expose it publicly without hardening.
+- The contact form simulates success after a delay; it does not send a message. Displayed contact details and response promises are not verified support arrangements.
 
-<p align="center">
-  Built with ❤️ by <a href="https://github.com/SRUN-Sochettra">SRUN Sochettra</a>
-</p>
+See [SECURITY.md](SECURITY.md) for source-backed risks. These issues are documented, not fixed by this package.
+
+## Project layout
+
+```text
+src/app/             Pages, layouts and Next.js API handlers
+src/components/      Management forms, tables, AI tools and layout
+src/context/         Authentication context
+src/lib/api/         External REST API clients
+components/ui/       Root-level reusable UI components
+lib/                 Root-level utility helper
+public/              Static assets
+```
+
+## Contributing and licence
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before making changes.
+
+No licence file is included in the supplied export. The npm `private` flag is package metadata, not a source-code licence or proof that the GitHub repository is private. This refresh does not assign redistribution rights.
